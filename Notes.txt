@@ -1,0 +1,4 @@
+npm i tailwindcss @tailwindcss/vite
+npm i react-hot-toast 
+npm i react-router-dom 
+npm i lucide-react
