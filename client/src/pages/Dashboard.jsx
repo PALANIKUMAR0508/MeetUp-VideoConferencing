@@ -47,11 +47,11 @@ const Dashboard = () => {
   const handleJoinMeeting = (e) => {
     e.preventDefault();
     const cleanId = joinId.trim();
-    if (!cleanId) {
+    if (!/^[a-z]{3}-[a-z]{3}-[a-z]{3}$/.test(cleanId)) {
       toast.error("Please enter a valid Meeting ID");
       return;
     }
-    navigate(`/meeting/${cleanId}`);
+    navigate(`/meeting/${encodeURIComponent(cleanId)}`);
   };
 
   return (
