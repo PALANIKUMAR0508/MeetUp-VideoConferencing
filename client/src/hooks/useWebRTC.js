@@ -1,11 +1,11 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { dummyRemoteParticipants } from "../assets/asset";
 
 const useWebRTC = (_roomId, user, onMeetingEnded, _enbled = true) => {
   const [localStream, setLocalStream] = useState(null);
   const [remoteUser, setRemoteUser] = useState(dummyRemoteParticipants);
-  const [audioEnbled, setAudioEnabled] = useState(true);
-  const [videoEnbled, setVideoEnbled] = useState(null);
+  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [videoEnabled, setVideoEnabled] = useState(null);
 
   const localStreamRef = useRef(null);
 
@@ -34,16 +34,17 @@ const useWebRTC = (_roomId, user, onMeetingEnded, _enbled = true) => {
       console.error("Error initializing local stream:", error);
       return null;
     }
-  }, [initialLocalStream]);
+  }, []);
 
   useEffect(() => {
     initialLocalStream();
     return () => {
       if (localStream.current) {
         localStreamRef.current.getTracks().forEach((track) => track.stop());
+        localStreamRef.current = null;
       }
     };
-  });
+  }, [initialLocalStream]);
 
   //Toggle local mic
   const toggleAudio = () => {
@@ -62,7 +63,7 @@ const useWebRTC = (_roomId, user, onMeetingEnded, _enbled = true) => {
 
   const toggleVideo = () => {
     const newState = !videoEnbled;
-    setVideoEnbled(newState);
+    setVideoEnabled(newState);
     if (localStreamRef.current) {
       const videoTrack = localStream.current.getvideoTracks()[0];
       if (videoTrack) videoTrack.enabled = newState;
@@ -79,15 +80,15 @@ const useWebRTC = (_roomId, user, onMeetingEnded, _enbled = true) => {
     }
   }, [onMeetingEnded]);
 
-  return (
+  return {
     localStream,
     remoteUser,
-    audioEnbled,
-    videoEnbled,
+    audioEnabled,
+    videoEnabled,
     toggleAudio,
     toggleVideo,
-    endMeeting
-  );
+    endMeeting,
+  };
 };
 
 export default useWebRTC;
