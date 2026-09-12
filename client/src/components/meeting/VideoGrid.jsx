@@ -20,7 +20,7 @@ const VideoGrid = ({
     return "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 max-w-7xl";
   };
   return (
-    <div className="flex w-full items-center justify-center p-4 overflow-y-auto">
+    <div className="flex  w-full flex-1 items-center justify-center overflow-y-auto p-4">
       <div
         className={`w-full grid gap-4 ${getGridClass()} aspect-video max-h-[calc(100vh-140px)] transition-all duration-300`}
       >
@@ -38,7 +38,7 @@ const VideoGrid = ({
           <VideoTile
             key={remote.socketId}
             stream={remote.stream}
-            name={remote.UserName}
+            name={remote.userName}
             isLocal={false}
             audioEnabled={remote.audioEnabled}
             videoEnabled={remote.videoEnabled}

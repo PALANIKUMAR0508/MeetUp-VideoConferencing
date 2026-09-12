@@ -5,6 +5,9 @@ import VideoGrid from "../components/meeting/VideoGrid";
 import useWebRTC from "../hooks/useWebRTC";
 import ChatPanel from "../components/meeting/ChatPanel";
 import { useChat } from "../hooks/useChat";
+import ParticipantList from "../components/meeting/ParticipantList";
+import ControlBar from "../components/meeting/controlBar";
+import toast from "react-hot-toast";
 
 const MeetingRoom = () => {
   const { meetingId } = useParams();
@@ -34,9 +37,16 @@ const MeetingRoom = () => {
 
   const isHost = true;
 
-  const handleLeave = () => {};
+  const handleLeave = () => {
+    toast("You left the meetinng");
+    navigate("/dashboard");
+  };
 
-  const handleEndMeeting = () => {};
+  const handleEndMeeting = () => {
+    endMeeting();
+    toast("Meeting ended for all participants");
+    navigate("/dashboard");
+  };
 
   return (
     <div className="h-screen w-screen bg-slate-100 text-slate-900 flex flex-col overflow-hidden relative font-sans">
@@ -53,7 +63,7 @@ const MeetingRoom = () => {
       </header>
 
       {/*Main Content Area (Video Grid + Side Panels) */}
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="flex-1 min-h-0 flex overflow-hidden relative">
         {/* Video Grid  Center */}
         <VideoGrid
           localStream={localStream}
@@ -71,9 +81,35 @@ const MeetingRoom = () => {
           onSendMessage={sendMessage}
           currentUser={userdata}
         />
+
         {/* Participants Drawer */}
-        {/* Bottom Floating Control Bar */}
+        <ParticipantList
+          isOpen={isParticipantsOpen}
+          onClose={() => setIsParticipantsOpen(false)}
+          localUser={userdata}
+          localAudio={audioEnabled}
+          localVideo={videoEnabled}
+          remoteUsers={remoteUser}
+          meetingHostId={dummyUser.id}
+        />
       </div>
+
+      <ControlBar
+        roomId={meetingId || dummyMeetingDetails.meetingId}
+        audioEnabled={audioEnabled}
+        videoEnabled={videoEnabled}
+        onToggleAudio={toggleAudio}
+        onToggleVideo={toggleVideo}
+        onToggleChat={toggleChat}
+        ontoggleParticipants={() => setIsParticipantsOpen((prev) => !prev)}
+        isChatOpen={isChatOpen}
+        isPariticipantsOpen={isParticipantsOpen}
+        unreadCount={unreadCount}
+        participantCount={1 + remoteUser.length}
+        isHost={isHost}
+        onLeave={handleLeave}
+        onEndMeeting={handleEndMeeting}
+      />
     </div>
   );
 };

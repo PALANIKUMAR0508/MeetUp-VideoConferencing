@@ -1,3 +1,11 @@
+import {
+  CrownIcon,
+  MicIcon,
+  MicOffIcon,
+  VideoIcon,
+  VideoOffIcon,
+  XIcon,
+} from "lucide-react";
 import React from "react";
 
 const ParticipantList = ({
@@ -6,6 +14,7 @@ const ParticipantList = ({
   localUser,
   localAudio,
   localVideo,
+  remoteUsers,
   meetingHostId,
 }) => {
   if (!isOpen) return null;
@@ -29,7 +38,7 @@ const ParticipantList = ({
           Participants({allParticipants.length})
         </h3>
         <button
-          onClick={onclose}
+          onClick={onClose}
           className="p-1.5 rounded-xl hover:bg-slate-100 text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
         >
           <XIcon className="w-5 h-5" />
@@ -45,10 +54,34 @@ const ParticipantList = ({
               key={p.socketId}
               className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border-slate-200 shadow-xs"
             >
-              <div className="w-9 h-9 rounded-full bg-primary-light border border-primary-border text-primary font-bold flex items-center justify-center text-sm shadow-xs">
-                {p.userName.charAt(0).toUpperCase()}
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-primary-light border border-primary-border text-primary font-bold flex items-center justify-center text-sm shadow-xs">
+                  {p.userName.charAt(0).toUpperCase()}
+                </div>
+                <div className="flex flex-row gap-3">
+                  {p.userName}
+                  <span className="text-sm font-medium text-slate-800 flex items-center gap-1.5">
+                    {isHost && (
+                      <CrownIcon
+                        className="w-3.5 h-3.5 text-amber-500"
+                        title="Host"
+                      />
+                    )}
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-col">{p.userName}</div>
+              <div className="flex items-center gap-2 text-slate-500">
+                {p.audioEnabled ? (
+                  <MicIcon className="w-4 h-4 text-slate-600" />
+                ) : (
+                  <MicOffIcon className="w-4 h-4 text-rose-500" />
+                )}
+                {p.videoEnabled ? (
+                  <VideoIcon className="w-4 h-4 text-slate-600" />
+                ) : (
+                  <VideoOffIcon className="w-4 h-4 text-rose-500" />
+                )}
+              </div>
             </div>
           );
         })}
