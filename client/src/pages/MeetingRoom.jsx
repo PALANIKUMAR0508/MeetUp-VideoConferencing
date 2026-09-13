@@ -101,7 +101,7 @@ const MeetingRoom = () => {
         onToggleAudio={toggleAudio}
         onToggleVideo={toggleVideo}
         onToggleChat={toggleChat}
-        ontoggleParticipants={() => setIsParticipantsOpen((prev) => !prev)}
+        onToggleParticipants={() => setIsParticipantsOpen((prev) => !prev)}
         isChatOpen={isChatOpen}
         isPariticipantsOpen={isParticipantsOpen}
         unreadCount={unreadCount}
