@@ -11,7 +11,9 @@
   "author": "",
   "license": "ISC",
   "type": "module",
-  "engines": {"node":">=20.9.0"},
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "devDependencies": {
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -21,6 +23,7 @@
   },
   "dependencies": {
     "@clerk/express": "^2.1.67",
-    "@neondatabase/serverless": "^1.1.0"
+    "@neondatabase/serverless": "^1.1.0",
+    "socket.io": "^4.8.4"
   }
 }

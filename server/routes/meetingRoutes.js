@@ -5,8 +5,8 @@ import {
   getMeetingStats,
   getSessionDetails,
   getUserSessions,
-} from "../controllers/meetingController";
-import { protect } from "../middleware/auth";
+} from "../controllers/meetingController.js";
+import { protect } from "../middleware/auth.js";
 
 const meetingRouter = express.Router();
 
