@@ -17,3 +17,4 @@ npm i dotenv
 npm i -D nodemon
 npm install @neondatabase/serverless
 npm install @clerk/express
+npm i socket.io
